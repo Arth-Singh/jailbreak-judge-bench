@@ -1,5 +1,5 @@
 {
- "data": "universal.jsonl",
+ "data": "labels.jsonl",
  "rows": 2649,
  "judges": {
   "claude-opus-5.5-our-question": {
@@ -592,7 +592,7 @@
      "human_asr": 0.22121212121212122,
      "judge_asr": 0.10303030303030303,
      "asr_error": 0.1181818181818182,
-     "auroc": 0.6625179894461916,
+     "auroc": null,
      "refused": 0
     },
     "securebreak": {
@@ -646,7 +646,7 @@
      "human_asr": 0.6,
      "judge_asr": 0.4962962962962963,
      "asr_error": null,
-     "auroc": 0.8981481481481481,
+     "auroc": null,
      "refused": 0
     },
     "strongreject": {
@@ -664,7 +664,7 @@
      "human_asr": 0.21333333333333335,
      "judge_asr": 0.14333333333333334,
      "asr_error": 0.07,
-     "auroc": 0.8359375,
+     "auroc": null,
      "refused": 0
     },
     "wildguardtest": {
@@ -1128,7 +1128,7 @@
     "human_asr": 0.39260098150245376,
     "judge_asr": 0.4579086447716119,
     "asr_error": 0.11648268398268398,
-    "auroc": 0.7254054716259501,
+    "auroc": null,
     "refused": 0
    },
    "sources": {
@@ -1147,7 +1147,7 @@
      "human_asr": 0.22121212121212122,
      "judge_asr": 0.3090909090909091,
      "asr_error": 0.08787878787878786,
-     "auroc": 0.7325035978892384,
+     "auroc": null,
      "refused": 0
     },
     "securebreak": {
@@ -1165,7 +1165,7 @@
      "human_asr": 0.44,
      "judge_asr": 0.42,
      "asr_error": 0.020000000000000018,
-     "auroc": 0.8081709956709957,
+     "auroc": null,
      "refused": 0
     },
     "harmmetric": {
@@ -1183,7 +1183,7 @@
      "human_asr": 0.38333333333333336,
      "judge_asr": 0.5066666666666667,
      "asr_error": 0.12333333333333335,
-     "auroc": 0.8153936545240893,
+     "auroc": null,
      "refused": 0
     },
     "venom": {
@@ -1201,7 +1201,7 @@
      "human_asr": 0.6,
      "judge_asr": 0.9629629629629629,
      "asr_error": null,
-     "auroc": 0.5154320987654321,
+     "auroc": null,
      "refused": 0
     },
     "strongreject": {
@@ -1219,7 +1219,7 @@
      "human_asr": 0.21333333333333335,
      "judge_asr": 0.29333333333333333,
      "asr_error": 0.07999999999999999,
-     "auroc": 0.8399099576271186,
+     "auroc": null,
      "refused": 0
     },
     "wildguardtest": {
@@ -1237,7 +1237,7 @@
      "human_asr": 0.6953125,
      "judge_asr": 0.5078125,
      "asr_error": 0.1875,
-     "auroc": 0.7606837606837606,
+     "auroc": null,
      "refused": 0
     },
     "donotanswer": {
@@ -1255,7 +1255,7 @@
      "human_asr": 0.20666666666666667,
      "judge_asr": 0.07333333333333333,
      "asr_error": 0.13333333333333333,
-     "auroc": 0.5757657901870425,
+     "auroc": null,
      "refused": 0
     },
     "coinflip": {
@@ -1273,7 +1273,7 @@
      "human_asr": 0.82,
      "judge_asr": 0.6366666666666667,
      "asr_error": 0.18333333333333324,
-     "auroc": 0.8317524841915086,
+     "auroc": null,
      "refused": 0
     },
     "fakes": {
@@ -3348,7 +3348,7 @@
     "human_asr": 0.39260098150245376,
     "judge_asr": 0.805587013967535,
     "asr_error": 0.3563933982683983,
-    "auroc": 0.5017330401109146,
+    "auroc": null,
     "refused": 0
    },
    "sources": {
@@ -3367,7 +3367,7 @@
      "human_asr": 0.22121212121212122,
      "judge_asr": 0.8424242424242424,
      "asr_error": 0.6212121212121212,
-     "auroc": 0.46044986940994614,
+     "auroc": null,
      "refused": 0
     },
     "securebreak": {
@@ -3385,7 +3385,7 @@
      "human_asr": 0.44,
      "judge_asr": 0.9366666666666666,
      "asr_error": 0.49666666666666665,
-     "auroc": 0.5091991341991342,
+     "auroc": null,
      "refused": 0
     },
     "harmmetric": {
@@ -3403,7 +3403,7 @@
      "human_asr": 0.38333333333333336,
      "judge_asr": 0.8233333333333334,
      "asr_error": 0.44,
-     "auroc": 0.4881316098707403,
+     "auroc": null,
      "refused": 0
     },
     "venom": {
@@ -3421,7 +3421,7 @@
      "human_asr": 0.6,
      "judge_asr": 0.8074074074074075,
      "asr_error": null,
-     "auroc": 0.37037037037037035,
+     "auroc": null,
      "refused": 0
     },
     "strongreject": {
@@ -3439,7 +3439,7 @@
      "human_asr": 0.21333333333333335,
      "judge_asr": 0.7133333333333334,
      "asr_error": 0.5,
-     "auroc": 0.592823093220339,
+     "auroc": null,
      "refused": 0
     },
     "wildguardtest": {
@@ -3457,7 +3457,7 @@
      "human_asr": 0.6953125,
      "judge_asr": 0.7421875,
      "asr_error": 0.046875,
-     "auroc": 0.5358686257562663,
+     "auroc": null,
      "refused": 0
     },
     "donotanswer": {
@@ -3475,7 +3475,7 @@
      "human_asr": 0.20666666666666667,
      "judge_asr": 0.5966666666666667,
      "asr_error": 0.39,
-     "auroc": 0.6627134724857685,
+     "auroc": null,
      "refused": 0
     },
     "coinflip": {
@@ -3493,7 +3493,7 @@
      "human_asr": 0.82,
      "judge_asr": 0.82,
      "asr_error": 0.0,
-     "auroc": 0.43541102077687444,
+     "auroc": null,
      "refused": 0
     },
     "fakes": {
@@ -4088,7 +4088,7 @@
     "human_asr": 0.39260098150245376,
     "judge_asr": 0.5941864854662137,
     "asr_error": 0.19262445887445884,
-    "auroc": 0.6615067887364344,
+    "auroc": null,
     "refused": 0
    },
    "sources": {
@@ -4107,7 +4107,7 @@
      "human_asr": 0.22121212121212122,
      "judge_asr": 0.43333333333333335,
      "asr_error": 0.21212121212121213,
-     "auroc": 0.7670699856084431,
+     "auroc": null,
      "refused": 0
     },
     "securebreak": {
@@ -4125,7 +4125,7 @@
      "human_asr": 0.44,
      "judge_asr": 0.6533333333333333,
      "asr_error": 0.21333333333333332,
-     "auroc": 0.6471861471861472,
+     "auroc": null,
      "refused": 0
     },
     "harmmetric": {
@@ -4143,7 +4143,7 @@
      "human_asr": 0.38333333333333336,
      "judge_asr": 0.6433333333333333,
      "asr_error": 0.25999999999999995,
-     "auroc": 0.6763807285546416,
+     "auroc": null,
      "refused": 0
     },
     "venom": {
@@ -4161,7 +4161,7 @@
      "human_asr": 0.6,
      "judge_asr": 0.9259259259259259,
      "asr_error": null,
-     "auroc": 0.5,
+     "auroc": null,
      "refused": 0
     },
     "strongreject": {
@@ -4179,7 +4179,7 @@
      "human_asr": 0.21333333333333335,
      "judge_asr": 0.5766666666666667,
      "asr_error": 0.3633333333333333,
-     "auroc": 0.6995497881355932,
+     "auroc": null,
      "refused": 0
     },
     "wildguardtest": {
@@ -4197,7 +4197,7 @@
      "human_asr": 0.6953125,
      "judge_asr": 0.5390625,
      "asr_error": 0.15625,
-     "auroc": 0.7708633438970518,
+     "auroc": null,
      "refused": 0
     },
     "donotanswer": {
@@ -4215,7 +4215,7 @@
      "human_asr": 0.20666666666666667,
      "judge_asr": 0.08,
      "asr_error": 0.12666666666666665,
-     "auroc": 0.6122255353754404,
+     "auroc": null,
      "refused": 0
     },
     "coinflip": {
@@ -4233,7 +4233,7 @@
      "human_asr": 0.82,
      "judge_asr": 0.8033333333333333,
      "asr_error": 0.016666666666666607,
-     "auroc": 0.7188346883468835,
+     "auroc": null,
      "refused": 0
     },
     "fakes": {
