@@ -1,5 +1,11 @@
 # A jailbreak judge that sees through fakes
 
+Arth Singh<sup>1,2</sup>, Samuel Simko<sup>3,4</sup>, Bernhard Schölkopf<sup>5,6</sup>, Zhijing Jin<sup>2,4,5</sup>
+
+<sup>1</sup> AIM Intelligence · <sup>2</sup> Jinesis Lab, University of Toronto & Vector Institute · <sup>3</sup> ETH Zurich ·
+<sup>4</sup> EuroSafeAI · <sup>5</sup> Max Planck Institute for Intelligent Systems, Tübingen, Germany ·
+<sup>6</sup> ELLIS Institute Tübingen
+
 **Project page:** https://arth-singh.github.io/jailbreak-judge-bench ·
 **Judge weights:** https://huggingface.co/ArthT/jailbreak-judge-27b-lora ·
 **Test data:** https://huggingface.co/datasets/ArthT/jailbreak-judge-bench
@@ -140,7 +146,7 @@ The paper is coming soon. Until then:
 ```bibtex
 @misc{singh2026jailbreakjudge,
   title  = {A Jailbreak Judge That Sees Through Fakes},
-  author = {Singh, Arth},
+  author = {Singh, Arth and Simko, Samuel and Sch{\"o}lkopf, Bernhard and Jin, Zhijing},
   year   = {2026},
   url    = {https://arth-singh.github.io/jailbreak-judge-bench}
 }
