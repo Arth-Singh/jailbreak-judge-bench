@@ -40,24 +40,25 @@ jailbreaks. **Paper prompt**: a model run with the judge prompt of an attack pap
 |---:|---|---|---:|---:|---:|---:|---:|---:|
 | 1 | **Our judge** | Trained by us | 88.7 | 80.2% | 88.7% | 97.2% | 4.9 | 84.4 |
 | 2 | GPT-6.1 sol-pro | Prompted | 75.7 | 43.0% | 88.0% | 96.0% | 25.1 | 65.5 |
-| 3 | Gemini 4 argon | Prompted | 74.8 | 40.3% | 87.2% | 96.9% | 27.4 | 63.7 |
-| 4 | GPT-4o | Prompted | 74.3 | 52.8% | 89.5% | 80.5% | 20.1 | 71.1 |
-| 5 | Qwen3.5 397B | Prompted | 72.2 | 25.0% | 91.7% | 100.0% | 32.4 | 58.4 |
-| 6 | GPT-4o mini | Prompted | 70.7 | 28.1% | 86.7% | 97.5% | 30.4 | 57.4 |
-| 7 | Claude Opus 5.5 | Prompted | 70.3 | 22.1% | 89.6% | 99.2% | 33.3 | 55.8 |
-| 8 | Qwen3.8 27B (our base) | Prompted | 67.9 | 13.5% | 90.9% | 99.4% | 37.0 | 52.2 |
-| 9 | HarmBench classifier | Classifier | 61.7 | 86.1% | 80.3% | 18.6% | 7.3 | 83.2 |
-| 10 | JailbreakBench judge | Paper prompt | 61.6 | 73.2% | 84.5% | 27.1% | 11.6 | 78.9 |
-| 11 | StrongREJECT, fine-tuned | Classifier | 59.4 | 72.1% | 77.8% | 28.2% | 10.5 | 75.0 |
-| 12 | PAIR judge | Paper prompt | 57.9 | 43.5% | 92.8% | 37.3% | 21.4 | 68.1 |
-| 13 | StrongREJECT rubric | Paper prompt | 55.7 | 85.8% | 66.2% | 15.3% | 18.6 | 76.0 |
-| 14 | ShieldGemma 9B | Classifier | 55.5 | 38.8% | 77.8% | 50.0% | 24.5 | 58.3 |
-| 15 | JailJudge | Classifier | 53.8 | 72.6% | 77.4% | 11.3% | 12.9 | 75.0 |
-| 16 | WildGuard | Classifier | 51.3 | 79.0% | 65.7% | 9.0% | 19.3 | 72.4 |
-| 17 | Llama Guard 4 | Classifier | 47.6 | 69.4% | 63.7% | 9.6% | 22.7 | 66.6 |
-| 18 | Qwen3Guard 8B | Classifier | 46.8 | 86.0% | 50.4% | 4.0% | 27.1 | 68.2 |
-| 19 | Llama Guard 3 | Classifier | 44.9 | 77.0% | 53.7% | 4.0% | 29.6 | 65.4 |
-| 20 | Refusal keywords | Keywords | 35.8 | 80.8% | 24.5% | 2.0% | 35.6 | 52.7 |
+| 3 | GPT-6 astra | Prompted | 75.6 | 41.9% | 88.4% | 96.3% | 25.3 | 65.2 |
+| 4 | Gemini 4 argon | Prompted | 74.8 | 40.3% | 87.2% | 96.9% | 27.4 | 63.7 |
+| 5 | GPT-4o | Prompted | 74.3 | 52.8% | 89.5% | 80.5% | 20.1 | 71.1 |
+| 6 | Qwen3.5 397B | Prompted | 72.2 | 25.0% | 91.7% | 100.0% | 32.4 | 58.4 |
+| 7 | GPT-4o mini | Prompted | 70.7 | 28.1% | 86.7% | 97.5% | 30.4 | 57.4 |
+| 8 | Claude Opus 5.5 | Prompted | 70.3 | 22.1% | 89.6% | 99.2% | 33.3 | 55.8 |
+| 9 | Qwen3.8 27B (our base) | Prompted | 67.9 | 13.5% | 90.9% | 99.4% | 37.0 | 52.2 |
+| 10 | HarmBench classifier | Classifier | 61.7 | 86.1% | 80.3% | 18.6% | 7.3 | 83.2 |
+| 11 | JailbreakBench judge | Paper prompt | 61.6 | 73.2% | 84.5% | 27.1% | 11.6 | 78.9 |
+| 12 | StrongREJECT, fine-tuned | Classifier | 59.4 | 72.1% | 77.8% | 28.2% | 10.5 | 75.0 |
+| 13 | PAIR judge | Paper prompt | 57.9 | 43.5% | 92.8% | 37.3% | 21.4 | 68.1 |
+| 14 | StrongREJECT rubric | Paper prompt | 55.7 | 85.8% | 66.2% | 15.3% | 18.6 | 76.0 |
+| 15 | ShieldGemma 9B | Classifier | 55.5 | 38.8% | 77.8% | 50.0% | 24.5 | 58.3 |
+| 16 | JailJudge | Classifier | 53.8 | 72.6% | 77.4% | 11.3% | 12.9 | 75.0 |
+| 17 | WildGuard | Classifier | 51.3 | 79.0% | 65.7% | 9.0% | 19.3 | 72.4 |
+| 18 | Llama Guard 4 | Classifier | 47.6 | 69.4% | 63.7% | 9.6% | 22.7 | 66.6 |
+| 19 | Qwen3Guard 8B | Classifier | 46.8 | 86.0% | 50.4% | 4.0% | 27.1 | 68.2 |
+| 20 | Llama Guard 3 | Classifier | 44.9 | 77.0% | 53.7% | 4.0% | 29.6 | 65.4 |
+| 21 | Refusal keywords | Keywords | 35.8 | 80.8% | 24.5% | 2.0% | 35.6 | 52.7 |
 <!-- results:end -->
 
 Without the fakes, our judge is level with the HarmBench classifier (84.4 against 83.2; the 95% interval of the
