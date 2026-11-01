@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jailbreak Judge</title>
 <meta name="description" content="A jailbreak judge that sees through fakes, and the test data that shows today's judges do not.">
-<meta name="author" content="Arth Singh, Samuel Simko, Bernhard Schölkopf, Zhijing Jin">
+<meta name="author" content="Arth Singh, Samuel Simko, Terry Zhang, Bernhard Schölkopf, Zhijing Jin">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
@@ -349,11 +349,12 @@ refused    no
   <p class="dek">Today's judges count made-up answers as successful jailbreaks. We built test sets that show it, and
   trained a judge around one question: <em>does the answer actually deliver?</em> We release the judge and the test
   data.</p>
-  <p class="byline">Arth Singh<sup>1,2</sup>, Samuel Simko<sup>3,4</sup>, Bernhard Schölkopf<sup>5,6</sup>,
-  Zhijing Jin<sup>2,4,5</sup></p>
+  <p class="byline">Arth Singh<sup>1,2*</sup>, Samuel Simko<sup>3,4*</sup>, Terry Zhang<sup>5</sup>,
+  Bernhard Schölkopf<sup>6,7</sup>, Zhijing Jin<sup>2,4,6</sup></p>
   <p class="affil"><span><sup>1</sup>AIM Intelligence</span> <span><sup>2</sup>Jinesis Lab, University of Toronto &amp;
-  Vector Institute</span> <span><sup>3</sup>ETH Zurich</span> <span><sup>4</sup>EuroSafeAI</span> <span><sup>5</sup>Max
-  Planck Institute for Intelligent Systems, Tübingen, Germany</span> <span><sup>6</sup>ELLIS Institute Tübingen</span></p>
+  Vector Institute</span> <span><sup>3</sup>ETH Zurich</span> <span><sup>4</sup>EuroSafeAI</span> <span><sup>5</sup>University
+  of Oxford</span> <span><sup>6</sup>Max Planck Institute for Intelligent Systems, Tübingen, Germany</span>
+  <span><sup>7</sup>ELLIS Institute Tübingen</span> <span><sup>*</sup>Equal contribution</span></p>
   <div class="tapes">
     <a class="tape claret" data-href="weights" href="#"><span><i>1</i>Judge weights</span></a>
     <a class="tape navy" data-href="data" href="#"><span><i>2</i>Test data · <span data-fill="rows"></span> answers</span></a>
@@ -671,14 +672,14 @@ refused    no
   <p class="muted">The paper is coming soon. Until then, please cite the release:</p>
   <pre><code>@misc{singh2026jailbreakjudge,
   title  = {A Jailbreak Judge That Sees Through Fakes},
-  author = {Singh, Arth and Simko, Samuel and Sch{\"o}lkopf, Bernhard and Jin, Zhijing},
+  author = {Singh, Arth and Simko, Samuel and Zhang, Terry and Sch{\"o}lkopf, Bernhard and Jin, Zhijing},
   year   = {2026},
   url    = {https://arth-singh.github.io/jailbreak-judge-bench}
 }</code></pre>
 </section>
 
 <footer>
-  <p>Arth Singh, Samuel Simko, Bernhard Schölkopf, Zhijing Jin · results updated <span data-fill="updated"></span></p>
+  <p>Arth Singh, Samuel Simko, Terry Zhang, Bernhard Schölkopf, Zhijing Jin · results updated <span data-fill="updated"></span></p>
   <p>Code: MIT. Weights: Apache-2.0. Data: each source keeps its own license. Questions or a judge to add?
   <a data-href="issues" href="#">Open an issue</a>.</p>
 </footer>
