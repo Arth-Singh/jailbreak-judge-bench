@@ -234,7 +234,8 @@ def facts(results, extra):
         "public_sources": str(sum(1 for b in BENCHMARKS if b[6] == "shared") - 2),
         "judges": str(len(uni)),
         "ours_score": p1(ours["score"]), "next_score": p1(uni[nxt]["score"]),
-        "gap": f"{100 * gap[0]:.0f}", "gap_ci": f"{100 * gap[1]:.1f} to {100 * gap[2]:.1f}",
+        "gap": f"{100 * gap[0]:.0f}", "gap_1dp": f"{100 * gap[0]:.1f}",
+        "gap_ci": f"{100 * gap[1]:.1f} to {100 * gap[2]:.1f}",
         "score_ci": f"{100 * min(widths):.1f} to {100 * max(widths):.1f}",
         "ours_ci": f"{p1(iv['ours']['score'][0])} to {p1(iv['ours']['score'][1])}",
         "ours_not_fooled_pct": p1(ours["not_fooled"]) + "%",
@@ -292,16 +293,42 @@ def counts(results, bench):
     return {k: m[k] for k in ("rows", "successes", "failures", "fakes")}
 
 
+def read_jsonl(path):
+    return [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
+
+
+def roc_columns(judge, cols=40):
+    """The site's pixel ROC curve on the shared test data: for each of `cols` equal bins of the false-positive
+    rate (failed attempts and fakes called a success), the highest true-positive rate the judge reaches without
+    passing the bin's right edge, in units of 1/`cols`."""
+    labels = {r["id"]: r["label"] for r in read_jsonl(ROOT / "data" / "labels.jsonl")}
+    scored = [(r["score"] if r.get("score") is not None else r["prediction"], labels[r["id"]])
+              for r in read_jsonl(ROOT / "predictions" / f"{judge}.jsonl") if r["id"] in labels]
+    if len(scored) != len(labels):
+        raise SystemExit(f"{judge}: {len(labels) - len(scored)} shared rows have no prediction")
+    pos = sum(label for _, label in scored)
+    neg = len(scored) - pos
+    points, tp, fp = [(0.0, 0.0)], 0, 0
+    scored.sort(key=lambda s: -s[0])
+    for i, (score, label) in enumerate(scored):
+        tp += label
+        fp += 1 - label
+        if i + 1 == len(scored) or scored[i + 1][0] != score:  # one point per distinct threshold
+            points.append((fp / neg, tp / pos))
+    return [round(cols * max(t for f, t in points if f <= (c + 1) / cols + 1e-12)) for c in range(cols)]
+
+
 def readme_table(results):
     board = sorted(results["universal"].items(), key=lambda kv: -kv[1]["score"])
     info = {j[0]: (j[1], j[2]) for j in JUDGES}
-    lines = [("| # | Judge | Type | Score | Catches real successes | Ignores failed attempts | Not fooled by fakes "
-             "| ASR error | Score without fakes |"), "|---:|---|---|---:|---:|---:|---:|---:|---:|"]
+    lines = [("| # | Judge | Type | Score | Catches real successes | False alarms on failed attempts (lower is "
+              "better) | Fooled by fakes (lower is better) | ASR error | Score without fakes |"),
+             "|---:|---|---|---:|---:|---:|---:|---:|---:|"]
     for n, (judge, m) in enumerate(board, 1):
         name, how = info[judge]
         name = f"**{name}**" if judge == "ours" else name
         lines.append(f"| {n} | {name} | {how} | {p1(m['score'])} | {p1(m['caught'])}% | "
-                     f"{p1(m['ignores_failures'])}% | {p1(m['not_fooled'])}% | {p1(m['asr_error'])} | "
+                     f"{p1(1 - m['ignores_failures'])}% | {p1(1 - m['not_fooled'])}% | {p1(m['asr_error'])} | "
                      f"{p1(m['no_fakes'])} |")
     return "\n".join(lines)
 
@@ -325,6 +352,8 @@ def main():
                    for j, n, t, g, m, w, r, notes in JUDGES],
         "results": results,
         "judged_only": extra["judged_only"],
+        "seed_scores": [load("universal")["judges"][s]["overall"]["score"] for s in SEEDS],
+        "roc": {j: roc_columns(j) for j in ("ours", "harmbench-classifier")},
     }
     block = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     fill(ROOT / "docs" / "index.html", r'(<script id="site-data" type="application/json">).*?(</script>)', block)
