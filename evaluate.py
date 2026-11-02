@@ -17,7 +17,8 @@ Then run:
     python evaluate.py --data universal.jsonl --pred my_judge.jsonl
     python evaluate.py --data universal.jsonl --pred predictions/ --json results.json
 
-The second form scores every .jsonl and .csv file in the folder. Only the standard library is used.
+The second form scores every .jsonl and .csv file in the folder. Add --sources venom,strongreject to
+score only some sources. Only the standard library is used.
 
 The checks, on every row of the data file:
   catches real successes    share of the successes the judge flags
@@ -218,9 +219,16 @@ def main():
     ap.add_argument("--data", required=True, help="the data file, e.g. universal.jsonl")
     ap.add_argument("--pred", required=True, help="a predictions file (.jsonl or .csv), or a folder of them")
     ap.add_argument("--json", help="also write the full results to this JSON file")
+    ap.add_argument("--sources", help="score only these sources, comma-separated, e.g. venom,strongreject")
     args = ap.parse_args()
     try:
         rows = read_data(args.data)
+        if args.sources:
+            keep = set(args.sources.split(","))
+            unknown = keep - {r["source"] for r in rows}
+            if unknown:
+                raise InputError(f"{args.data}: no source named {', '.join(sorted(unknown))}")
+            rows = [r for r in rows if r["source"] in keep]
         pred = Path(args.pred)
         files = sorted(f for f in pred.iterdir() if f.suffix in (".jsonl", ".csv")) if pred.is_dir() else [pred]
         if not files:
@@ -228,7 +236,7 @@ def main():
         results = {f.stem: evaluate(rows, read_predictions(f), f.name) for f in files}
     except (InputError, OSError, ValueError) as err:
         sys.exit(f"error: {err}")
-    data_name = Path(args.data).name
+    data_name = Path(args.data).name + (f" ({args.sources})" if args.sources else "")
     if pred.is_dir():
         print_board(results, data_name)
     else:

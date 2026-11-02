@@ -4,6 +4,8 @@ outputs in results/:
   results/universal.json   evaluate.py --data data/labels.jsonl --pred predictions/
   results/more.json        the same on the benchmarks we score but may not share (judges run on our GPUs only)
   results/unseen.json      the test answers whose request our judge never saw in training
+  results/independent.json the sources our judge never trained on (evaluate.py --sources, INDEPENDENT)
+  results/untouched.json   of those, the sources we also never compared training recipes on (UNTOUCHED)
   results/extra.json       intervals, judged-only numbers and score counts (scripts/extra_stats.py)
 
 Every number in the site's text comes from these files, so the text cannot drift from the results.
@@ -61,6 +63,12 @@ BENCHMARKS = [
      "that none gives real help."), "CC BY 4.0", "", "shared"),
     ("unseen", "Requests our judge never saw", ("The shared answers whose request is not in our judge's "
      "training data."), "", "", "", "subset"),
+    ("independent", "Never in our training", ("The seven benchmarks our judge never trained on: JailMeter, "
+     "SecureBreak, HarmMetric, VENOM, StrongREJECT, WildGuardTest and Do-Not-Answer. Every shared source except "
+     "Coin Flip and our fakes."), "", "", "", "subset"),
+    ("untouched", "Never in training or tuning", ("The four of those we also never used to compare training "
+     "recipes: JailMeter, StrongREJECT, WildGuardTest and Do-Not-Answer. They have no fakes, so the score is the "
+     "average of the first two checks."), "", "", "", "subset"),
     ("jailbreakqr", "JailbreakQR", "Answers its human raters marked as a successful, partial or failed jailbreak.",
      "Success: “successful” only; partial and failed are failures. The grouping is ours.",
      "Data use agreement: no redistribution", "https://huggingface.co/datasets/TrustAIRLab/JailbreakQR", "more"),
@@ -127,6 +135,15 @@ JUDGES = [
      "The refusal phrase list from the GCG attack code."),
 ]
 SEEDS = ("ours", "ours-seed1", "ours-seed2", "ours-seed3")
+# the sources of each subset file, as passed to evaluate.py --sources; the unseen file is filtered by request
+INDEPENDENT = "jailmeter,securebreak,harmmetric,venom,strongreject,wildguardtest,donotanswer"
+UNTOUCHED = "jailmeter,strongreject,wildguardtest,donotanswer"
+SUBSETS = {"unseen": None, "independent": INDEPENDENT, "untouched": UNTOUCHED}
+# JudgeStressTest, whose labels we may share but whose rows are not in the download: AUROC on its 439 usable
+# rows, and two LLM annotators' agreement with the crowd label on Coin Flip's own 1-5 scale (controls, JST),
+# from our runs on the node (FINDINGS_V2.md, JST adjudication)
+JST = {"rows": 439, "ours": 0.381, "base": 0.372, "qwen397": 0.340, "controls_agree": (0.825, 0.837),
+       "jst_agree": (0.353, 0.368)}
 API_MODELS = ("gpt-6.1-sol-pro-our-question", "gpt-6-astra-our-question", "gemini-4-argon-our-question", "claude-opus-5.5-our-question",
               "gpt-4o-our-question", "gpt-4o-mini-our-question")
 KEEP = ("rows", "successes", "failures", "fakes", "score", "caught", "ignores_failures", "not_fooled", "no_fakes",
@@ -170,15 +187,17 @@ def collect(extra):
     names = [j[0] for j in JUDGES]
     distinct = extra["distinct_scores"]
     results = {}
-    for name in ("universal", "unseen", "more"):
+    for name in ("universal", *SUBSETS, "more"):
+        if SUBSETS.get(name) and not load(name)["data"].endswith(f"({SUBSETS[name]})"):
+            raise SystemExit(f"results/{name}.json was not scored on {SUBSETS[name]}: rerun evaluate.py --sources")
         report = load(name)["judges"]
         for judge in names:
             if judge not in report:
                 continue
             r = report[judge]
-            if name in ("universal", "unseen"):
+            if name == "universal" or name in SUBSETS:
                 results.setdefault(name, {})[judge] = metrics(r["overall"], distinct[judge], overall_bias(r))
-            if name != "unseen":
+            if name not in SUBSETS:
                 for source, m in r["sources"].items():
                     results.setdefault(source, {})[judge] = metrics(m, distinct[judge])
     return results
@@ -214,6 +233,12 @@ def facts(results, extra):
         raise SystemExit("the text names the HarmBench classifier as the closest judge without fakes: fix the text")
     unseen = results["unseen"]
     unseen_next = max((j for j in unseen if j != "ours"), key=lambda j: unseen[j]["score"])
+    indep, untouched = results["independent"], results["untouched"]
+    indep_next = max((j for j in indep if j != "ours"), key=lambda j: indep[j]["score"])
+    if max((j for j in indep if j != "ours"), key=lambda j: indep[j]["no_fakes"]) != "harmbench-classifier":
+        raise SystemExit("the text names the HarmBench classifier as closest without fakes off our data: fix the text")
+    if set(sorted(untouched, key=lambda j: -untouched[j]["score"])[:2]) != {"ours", "harmbench-classifier"}:
+        raise SystemExit("the text says ours and the HarmBench classifier lead the untouched sources: fix the text")
     iv = extra["intervals"]
     widths = [(iv[j]["score"][1] - iv[j]["score"][0]) / 2 for j in uni]
     gap = iv[nxt]["ours_minus_score"]
@@ -269,6 +294,17 @@ def facts(results, extra):
         "ours_fooled": f"{100 * (1 - ours['not_fooled']):.0f}%",
         "unseen_rows": f"{unseen['ours']['rows']:,}", "unseen_score": p1(unseen["ours"]["score"]),
         "unseen_next": f"{name[unseen_next]} ({p1(unseen[unseen_next]['score'])})",
+        "indep_rows": f"{indep['ours']['rows']:,}", "indep_score": p1(indep["ours"]["score"]),
+        "indep_next": f"{name[indep_next]} ({p1(indep[indep_next]['score'])})",
+        "indep_no_fakes": p1(indep["ours"]["no_fakes"]), "indep_hb_no_fakes": p1(indep["harmbench-classifier"]["no_fakes"]),
+        "untouched_rows": f"{untouched['ours']['rows']:,}", "untouched_ours": p1(untouched["ours"]["score"]),
+        "untouched_hb": p1(untouched["harmbench-classifier"]["score"]),
+        "ours_fooled_venom": f"{100 * (1 - results['venom']['ours']['not_fooled']):.0f}%",
+        "ours_fooled_kimi": f"{100 * (1 - results['fakes']['ours']['not_fooled']):.0f}%",
+        "jst_rows": str(JST["rows"]), "jst_ours": f"{JST['ours']:.2f}", "jst_base": f"{JST['base']:.2f}",
+        "jst_397": f"{JST['qwen397']:.2f}",
+        "jst_controls": f"{100 * JST['controls_agree'][0]:.0f} to {100 * JST['controls_agree'][1]:.0f}%",
+        "jst_agree": f"{100 * JST['jst_agree'][0]:.0f} to {100 * JST['jst_agree'][1]:.0f}%",
         "seeds": f"{p1(min(m['score'] for m in seeds))} to {p1(max(m['score'] for m in seeds))}",
         "seeds_mean": p1(sum(m["score"] for m in seeds) / len(seeds)),
         "seeds_asr": f"{p1(min(m['asr_error'] for m in seeds))} to {p1(max(m['asr_error'] for m in seeds))}",
