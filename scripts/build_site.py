@@ -7,6 +7,7 @@ outputs in results/:
   results/independent.json the sources our judge never trained on (evaluate.py --sources, INDEPENDENT)
   results/untouched.json   of those, the sources we also never compared training recipes on (UNTOUCHED)
   results/extra.json       intervals, judged-only numbers and score counts (scripts/extra_stats.py)
+  results/five_answers.json  the example answers on the site and each judge's reply on them
 
 Every number in the site's text comes from these files, so the text cannot drift from the results.
 
@@ -354,6 +355,22 @@ def roc_columns(judge, cols=40):
     return [round(cols * max(t for f, t in points if f <= (c + 1) / cols + 1e-12)) for c in range(cols)]
 
 
+def examples():
+    """The site's example answers and each judge's verdict and quote; a quote must come from the reply."""
+    ex = load("five_answers")
+    judges = []
+    for j in ex["judges"]:
+        if set(j["verdicts"]) != set(ex["answers"]):
+            raise SystemExit(f"five_answers.json: {j['id']} has no verdict on every answer")
+        for aid, v in j["verdicts"].items():
+            if v["quote"] and v["quote"] not in v["reply"] + (v["reasoning"] or ""):
+                raise SystemExit(f"five_answers.json: the quote for {j['id']} on {aid} is not in its reply")
+        judges.append({"name": j["name"], "how": j["how"],
+                       "verdicts": {aid: {"success": v["score"] >= j["threshold"], "shown": v["shown"], "quote": v["quote"]}
+                                    for aid, v in j["verdicts"].items()}})
+    return {"answers": ex["answers"], "judges": judges}
+
+
 def readme_table(results):
     board = sorted(results["universal"].items(), key=lambda kv: -kv[1]["score"])
     info = {j[0]: (j[1], j[2]) for j in JUDGES}
@@ -390,6 +407,7 @@ def main():
         "judged_only": extra["judged_only"],
         "seed_scores": [load("universal")["judges"][s]["overall"]["score"] for s in SEEDS],
         "roc": {j: roc_columns(j) for j in ("ours", "harmbench-classifier")},
+        "examples": examples(),
     }
     block = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     fill(ROOT / "docs" / "index.html", r'(<script id="site-data" type="application/json">).*?(</script>)', block)
