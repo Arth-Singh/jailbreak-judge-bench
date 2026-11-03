@@ -20,11 +20,11 @@
 @font-face { font-family: 'Geist Pixel'; src: url('assets/fonts/GeistPixel-Square.woff2') format('woff2'); font-display: swap; }
 :root {
   color-scheme: light;
-  --ink: #2A1B3D; --ink-2: #4B3D60; --ink-3: #5B4B70;
-  --cream: #FFF9EC; --paper: #FBF6EA; --sand: #F3EBDD; --sand-2: #EFE6D6; --line: #E6DCC8;
+  --ink: #1A1A1A; --ink-2: #3D3D3D; --ink-3: #5C5C5C;
+  --cream: #FFFFFF; --paper: #F7F7F7; --sand: #F0F0F0; --sand-2: #E8E8E8; --line: #DDDDDD;
   --yellow: #FFC93C; --yellow-dk: #E5A21F; --yellow-lt: #FFE27A; --yellow-pale: #FFF3C4;
   --blue: #4CB5FF; --blue-dk: #2E8FD6; --green: #3DBE6A; --green-dk: #2A9A52; --coral: #FF6F59; --red: #B8341F;
-  --surface: #FFFFFF; --on-accent: #2A1B3D; --other: #8C7BA6;
+  --surface: #FFFFFF; --on-accent: #1A1A1A; --other: #8E8E8E;
   --pixel: 'Geist Pixel', ui-monospace, Menlo, monospace;
   --serif: 'Geist Serif', Georgia, serif;
   --text: 'Geist Serif Text', Georgia, serif;
@@ -33,13 +33,13 @@
   --f3: 0 -3px 0 0 var(--ink), 0 3px 0 0 var(--ink), -3px 0 0 0 var(--ink), 3px 0 0 0 var(--ink);
   --f4: 0 -4px 0 0 var(--ink), 0 4px 0 0 var(--ink), -4px 0 0 0 var(--ink), 4px 0 0 0 var(--ink);
 }
-/* dark theme: the same accents on a night palette; text on accent fills keeps --on-accent */
+/* dark theme: the same accents on neutral grays; text on accent fills keeps --on-accent */
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --ink: #EFE8F7; --ink-2: #CFC4DD; --ink-3: #A99BBD;
-    --cream: #15101D; --paper: #1C1626; --sand: #251E30; --sand-2: #2D253A; --line: #3B3149;
-    --surface: #1E1829; --yellow-lt: #8A6A12; --yellow-pale: #3B3115; --blue-dk: #63BDF5; --red: #FF8F7A;
+    --ink: #EDEDED; --ink-2: #C8C8C8; --ink-3: #A0A0A0;
+    --cream: #121212; --paper: #1A1A1A; --sand: #222222; --sand-2: #2A2A2A; --line: #383838;
+    --surface: #1C1C1C; --yellow-lt: #8A6A12; --yellow-pale: #3B3115; --blue-dk: #63BDF5; --red: #FF8F7A;
   }
 }
 * { box-sizing: border-box; }
@@ -110,6 +110,9 @@ h1 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.02em; margi
 .stage { position: absolute; left: 0; top: 0; width: 520px; height: 330px; transform-origin: 0 0; overflow: hidden; }
 .stage > * { position: absolute; }
 .stage img, .stage svg { image-rendering: pixelated; shape-rendering: crispEdges; display: block; }
+/* hero clouds: pale blue-gray on the white page, white on the dark page */
+.stage path[data-px="cloud.w"] { fill: #E3ECF5; } .stage path[data-px="cloud.b"] { fill: #C4D8EC; }
+@media (prefers-color-scheme: dark) { .stage path[data-px="cloud.w"] { fill: #FFFFFF; } .stage path[data-px="cloud.b"] { fill: #D6ECFF; } }
 .bubble { background: var(--surface); box-shadow: var(--f3); font-family: var(--pixel); white-space: nowrap; }
 .bubble::after { content: ''; position: absolute; width: 8px; height: 8px; background: var(--surface); box-shadow: 3px 0 0 0 var(--ink), 0 3px 0 0 var(--ink), 3px 3px 0 0 var(--ink); }
 .b-alert::after { left: 6px; bottom: -9px; }
@@ -472,7 +475,7 @@ footer .nav { flex: 0 0 auto; font-size: 13px; }
         <div class="cloud1" style="left: 0; top: 30px; transform: translateX(150px);"><svg viewBox="0 0 20 7" style="width: 60px; height: 21px;" aria-hidden="true"><path data-px="cloud.w" fill="#FFFFFF"></path><path data-px="cloud.b" fill="#D6ECFF"></path></svg></div>
         <div class="cloud2" style="left: 0; top: 70px; transform: translateX(400px);"><svg viewBox="0 0 20 7" style="width: 40px; height: 14px;" aria-hidden="true"><path data-px="cloud.w" fill="#FFFFFF"></path><path data-px="cloud.b" fill="#D6ECFF"></path></svg></div>
         <svg class="bush" style="left: 448px; top: 268px; width: 68px; height: 32px; z-index: 1;" viewBox="0 0 17 8" aria-hidden="true">
-          <path data-px="bush.k" fill="#2A1B3D"></path><path data-px="bush.g" fill="#3DBE6A"></path><path data-px="bush.L" fill="#7ED957"></path><path data-px="bush.D" fill="#2A9A52"></path>
+          <path data-px="bush.k" fill="#1A1A1A"></path><path data-px="bush.g" fill="#3DBE6A"></path><path data-px="bush.L" fill="#7ED957"></path><path data-px="bush.D" fill="#2A9A52"></path>
         </svg>
         <svg style="left: 0; top: 296px; width: 520px; height: 34px; z-index: 2;" viewBox="0 0 260 17" aria-hidden="true">
           <path id="ground-tufts" fill="#3DBE6A"></path>
@@ -569,17 +572,17 @@ footer .nav { flex: 0 0 auto; font-size: 13px; }
         <img src="assets/meadow_256.png" alt="">
         <svg viewBox="0 0 256 109" aria-hidden="true">
           <defs>
-            <g id="th-lid"><path data-px="lid.k" fill="#2A1B3D"></path><path data-px="lid.W" fill="#E0A060"></path><path data-px="lid.w" fill="#B8733A"></path><path data-px="lid.g" fill="#F2B632"></path></g>
-            <g id="th-base"><path data-px="base.k" fill="#2A1B3D"></path><path data-px="base.W" fill="#E0A060"></path><path data-px="base.w" fill="#B8733A"></path><path data-px="base.g" fill="#F2B632"></path><path data-px="base.G" fill="#FFF0A0"></path></g>
-            <g id="th-mouth"><path data-px="mouth.k" fill="#2A1B3D"></path><path data-px="mouth.R" fill="#6A1030"></path><path data-px="mouth.T" fill="#FFFFFF"></path><path data-px="mouth.Y" fill="#FFE066"></path><path data-px="mouth.p" fill="#FF7A93"></path></g>
+            <g id="th-lid"><path data-px="lid.k" fill="#1A1A1A"></path><path data-px="lid.W" fill="#E0A060"></path><path data-px="lid.w" fill="#B8733A"></path><path data-px="lid.g" fill="#F2B632"></path></g>
+            <g id="th-base"><path data-px="base.k" fill="#1A1A1A"></path><path data-px="base.W" fill="#E0A060"></path><path data-px="base.w" fill="#B8733A"></path><path data-px="base.g" fill="#F2B632"></path><path data-px="base.G" fill="#FFF0A0"></path></g>
+            <g id="th-mouth"><path data-px="mouth.k" fill="#1A1A1A"></path><path data-px="mouth.R" fill="#6A1030"></path><path data-px="mouth.T" fill="#FFFFFF"></path><path data-px="mouth.Y" fill="#FFE066"></path><path data-px="mouth.p" fill="#FF7A93"></path></g>
             <g id="th-spark"><path data-px="spark.s" fill="#FFF6B0"></path><path data-px="spark.S" fill="#FFFFFF"></path></g>
             <g id="th-cloud"><path data-px="cloud.w" fill="#FFFFFF"></path><path data-px="cloud.b" fill="#D6ECFF"></path></g>
-            <g id="th-alert"><path data-px="alert.k" fill="#2A1B3D"></path><path data-px="alert.T" fill="#FFFFFF"></path><path data-px="alert.R" fill="#FF6F59"></path></g>
-            <g id="th-lock"><path data-px="lock.k" fill="#2A1B3D"></path><path data-px="lock.Y" fill="#F2B632"></path></g>
+            <g id="th-alert"><path data-px="alert.k" fill="#1A1A1A"></path><path data-px="alert.T" fill="#FFFFFF"></path><path data-px="alert.R" fill="#FF6F59"></path></g>
+            <g id="th-lock"><path data-px="lock.k" fill="#1A1A1A"></path><path data-px="lock.Y" fill="#F2B632"></path></g>
             <g id="th-dust"><path data-px="dust.d" fill="#F3EBDD"></path></g>
-            <g id="th-boot"><path data-px="boot.k" fill="#2A1B3D"></path><path data-px="boot.B" fill="#8A5A3A"></path></g>
-            <g id="th-flyA"><path data-px="flyA.p" fill="#FF5FA2"></path><path data-px="flyA.k" fill="#2A1B3D"></path></g>
-            <g id="th-flyB"><path data-px="flyB.p" fill="#FF5FA2"></path><path data-px="flyB.k" fill="#2A1B3D"></path></g>
+            <g id="th-boot"><path data-px="boot.k" fill="#1A1A1A"></path><path data-px="boot.B" fill="#8A5A3A"></path></g>
+            <g id="th-flyA"><path data-px="flyA.p" fill="#FF5FA2"></path><path data-px="flyA.k" fill="#1A1A1A"></path></g>
+            <g id="th-flyB"><path data-px="flyB.p" fill="#FF5FA2"></path><path data-px="flyB.k" fill="#1A1A1A"></path></g>
           </defs>
           <g transform="translate(228 5)">
             <path class="th-raysA" d="M7 0h1v2h-1z M7 13h1v2h-1z M0 7h2v1h-2z M13 7h2v1h-2z" fill="#FFB703"></path>
@@ -597,7 +600,7 @@ footer .nav { flex: 0 0 auto; font-size: 13px; }
           <g transform="translate(74 74)"><g class="th-spark" style="animation-delay: 1s;"><use href="#th-spark"></use></g></g>
           <g class="th-s1"><g transform="translate(66 98)"><use href="#th-spark"></use></g></g>
           <g class="th-s2"><g transform="translate(95 98)"><use href="#th-lock"></use></g></g>
-          <g class="th-s3"><rect x="117" y="97" width="24" height="10" fill="#2A1B3D"></rect><rect x="118" y="98" width="22" height="8" fill="#FF6F59"></rect><text x="129" y="104.4" style="font-family: 'Geist Pixel', monospace; font-size: 6px; text-anchor: middle; fill: #2A1B3D;">FAKE</text></g>
+          <g class="th-s3"><rect x="117" y="97" width="24" height="10" fill="#1A1A1A"></rect><rect x="118" y="98" width="22" height="8" fill="#FF6F59"></rect><text x="129" y="104.4" style="font-family: 'Geist Pixel', monospace; font-size: 6px; text-anchor: middle; fill: #1A1A1A;">FAKE</text></g>
           <g class="th-s4"><g transform="translate(154 99)"><use href="#th-dust"></use></g></g>
           <g class="th-s5"><g transform="translate(185 98)"><use href="#th-boot"></use></g></g>
           <g class="th-owl" style="transform: translate(145px, 55px);">
